@@ -15,22 +15,38 @@ public class MainDao {
     public static void main(String[] args) {
 
 
-        UserDao userDao = new UserDao();
+        UserDao userD = new UserDao();
+ //       userD = UserDao.findAll();
 //        User user = new User();
-//        user.setUserName("adam");
-//        user.setEmail("adam@root.pl");
-//        user.setPassword("123456");
-//        userDao.create(user);
+//        user.setUserName("janpol");
+//        user.setEmail("janpol@root.pl");
+//        user.setPassword("admin7");
+//        userD.create(user);
 
-        User read = userDao.read(12);
+//        User read = userD.readUserName("adam2");
 //        System.out.println(read);
-//        User read2 = userDao.read(11);
+//        User read2 = userD.read(11);
 //        System.out.println(read2);
-//        UserDao userDao2 = new UserDao();
-        read.setEmail("adam4@noob.pl");
-        read.setUserName("NieAdam2");
-        read.setPassword("admin4");
-        userDao.update(read);
+//        try {
+//            userD.delete("users", 27);
+//            read.setEmail("xxx2@noob.pl");
+//            read.setUserName("xxx2");
+//            read.setPassword("xxx2");
+//
+//        userD.update(read);
+
+//            User secondUser = new User();
+//            secondUser.setUserName("marek");
+//            secondUser.setEmail("marek@coderslab.pl");
+//            secondUser.setPassword("pass");
+//            userD.create(secondUser);
+            User[] all = userD.findAll();
+            for (User u : all) {
+                System.out.println(u);
+            }
+//        }catch (NullPointerException ex){
+//            System.out.println("Błędny email");
+//        }
 
     }
 

@@ -20,7 +20,11 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        try {
+            this.userName = userName;
+        } catch (NullPointerException e){
+            System.out.println("Błędny email");
+        }
     }
 
     public String getEmail() {
