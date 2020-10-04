@@ -15,11 +15,12 @@ public class UserDao {
     private static final String DELETE_USER_QUERY =
             "DELETE * FROM users WHERE id= ?";
 
-    public static String hashPassword(String password) {
+    public  String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public static User create(User user) {
+
+    public  User create(User user) {
         try (Connection conn = DbUtil.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getUserName());
@@ -27,20 +28,21 @@ public class UserDao {
             statement.setString(3, hashPassword(user.getPassword()));
             statement.executeUpdate();
             //Pobieramy wstawiony do bazy identyfikator, a następnie ustawiamy id obiektu user.
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                user.setId(resultSet.getInt(1));
+            ResultSet rS = statement.getGeneratedKeys();
+            if (rS.next()) {
+                user.setId(rS.getInt(1));
             }
             return user;
         } catch (SQLIntegrityConstraintViolationException ez) {
             System.out.println("Już jest taki email");
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
-    public User read(int usrId) {
+    public  User read(int usrId) {
 
         try (Connection conn = DbUtil.getConnection()) {
 
@@ -56,14 +58,27 @@ public class UserDao {
                 user.setPassword(rS.getString("password"));
                 return user;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return null;
     }
+    public void update(User user) {
+        try (Connection conn = DbUtil.getConnection()) {
 
+            PreparedStatement statement = conn.prepareStatement(UPDATE_USER_QUERY);
+
+                statement.setInt(4, user.getId());
+                statement.setString(1, user.getUserName());
+                statement.setString(2, user.getEmail());
+                statement.setString(3, this.hashPassword(user.getPassword()));
+                statement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     public void printData2(Connection conn, String query, String... columnNames) throws SQLException {
 
         try (PreparedStatement statement = conn.prepareStatement(query);
@@ -89,4 +104,6 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
+
 }

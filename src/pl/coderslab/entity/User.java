@@ -11,6 +11,7 @@ public class User {
     }
 
     public void setId(int id) {
+
         this.id = id;
     }
 
@@ -38,12 +39,12 @@ public class User {
         this.password = password;
     }
 
-//    @Override
-//    public String toString() {
-//        return "New User{" +
-//                "email=" + email +
-//                ", userName=" + userName +
-//                ", password=" + password +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "New User{" +
+                "email=" + email +
+                ", userName=" + userName +
+                ", password=" + password +
+                '}';
+    }
 }
